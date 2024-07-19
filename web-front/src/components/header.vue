@@ -16,12 +16,11 @@
     <teleport to="body">
         <div v-if="isShow" class="open-chat">
             <div class="input">
-                <input v-model="userId" placeholder="用户名" type="text">
-                <input v-model="roomId" placeholder="房间编号" type="text">
+                <input v-model="userNameEdit" placeholder="用户名" type="text">
             </div>
             <div class="btn">
                 <button @click="isShow = false">取消</button>
-                <button>确定</button>
+                <button @click="editUserName">确定</button>
             </div>
         </div>
     </teleport>
@@ -29,13 +28,14 @@
 <script setup lang="ts">
 import { ElNotification } from 'element-plus'
 import { ref } from 'vue';
-let userId = ref('')
-let roomId = ref('')
+import { useRoute } from 'vue-router'
+const route = useRoute()
+let { roomId, userName } = defineProps(['roomId', 'userName'])
+let userNameEdit = ref(userName)
 let isShow = ref(false)
 // 复制链接
 function share() {
-    console.log('share')
-    navigator.clipboard.writeText('这是要复制的文本')
+    navigator.clipboard.writeText(location.origin + '/chat?roomId=' + roomId)
         .then(() => {
             console.log('文本已复制到剪贴板');
             ElNotification({
@@ -49,7 +49,7 @@ function share() {
         });
 }
 // 编辑用户名和房间号
-function showEdit() {
+function editUserName() {
     console.log('edit')
 }
 </script>
@@ -83,7 +83,7 @@ function showEdit() {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 320px;
-    height: 220px;
+    height: 160px;
     background-color: pink;
     border-radius: 20px;
     background: rgba(243, 244, 251, 1);

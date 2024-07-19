@@ -96,6 +96,7 @@ onMounted(() => {
     line-height: 32px;
     color: #666;
     background-color: #fff;
+    text-align: left;
 }
 
 .chat-list .right {

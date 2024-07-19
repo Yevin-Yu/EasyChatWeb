@@ -1,12 +1,19 @@
 <template>
     <div class="chat-input">
         <textarea type="text" v-model="inputText" />
-        <button>发 送</button>
+        <button @click="sendMessage($parent)">发 送</button>
     </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
 let inputText = ref('')
+// 发送消息
+function sendMessage($parent: any) {
+    if ($parent.sendMessage && inputText.value) {
+        $parent.sendMessage(inputText.value)
+    }
+}
+
 </script>
 <style scoped>
 .chat-input {

@@ -1,6 +1,6 @@
 <template>
     <div class="chat">
-        <Header>
+        <Header :roomId="roomId" :userName="userName">
             <span class="room-number">[hdw732jd][已链接]</span>
         </Header>
         <ChatList></ChatList>
@@ -8,10 +8,27 @@
     </div>
 </template>
 <script setup lang="ts">
+import { useRandomString } from '@/hooks/useRandomString';
+import { useUserStore } from '@/stores/useUserStore';
 import Header from '@/components/header.vue'
 import ChatList from '@/components/chatList.vue'
 import ChatInput from '@/components/chatInput.vue'
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia';
+const router = useRouter()
+const route = useRoute()
+// 获取房间号
+let roomId = ref(route.query.roomId)
+if (!roomId.value) {
+    roomId.value = useRandomString(8)
+    router.push(`chat?roomId=${roomId.value}`)
+}
+// 获取用户信息
+const userStore = useUserStore()
+let { userName } = storeToRefs(userStore)
+// WebSocket
 let wsStatus = ref(false)
 let socket: WebSocket;
 onMounted(() => {
@@ -39,11 +56,12 @@ function webSocketInit() {
     });
 }
 // 发送消息
-function send() {
-    const data  = {
+function sendMessage(message) {
+    console.log(message)
+    const data = {
 
     }
-    socket.send('hello ,nihaoya ,iyuwb');
+    // socket.send('hello ,nihaoya ,iyuwb');
 }
 function getMessage(event: WebSocketEventMap['message']) {
     if (event.data instanceof Blob) {
@@ -54,6 +72,7 @@ function getMessage(event: WebSocketEventMap['message']) {
         console.log(event.data)
     }
 }
+defineExpose({ sendMessage })
 </script>
 <style scoped>
 .chat {
