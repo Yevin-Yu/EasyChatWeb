@@ -3,7 +3,7 @@
         <Header :roomId="roomId" :userName="userName">
             <span class="room-number">[hdw732jd][已链接]</span>
         </Header>
-        <ChatList></ChatList>
+        <ChatList :chatList="chatList" :roomId="roomId" :userName="userName"></ChatList>
         <ChatInput></ChatInput>
     </div>
 </template>
@@ -28,6 +28,9 @@ if (!roomId.value) {
 // 获取用户信息
 const userStore = useUserStore()
 let { userName } = storeToRefs(userStore)
+// 聊天记录
+let chatList = ref<any[]>([])
+
 // WebSocket
 let wsStatus = ref(false)
 let socket: WebSocket;
@@ -56,17 +59,24 @@ function webSocketInit() {
     });
 }
 // 发送消息
-function sendMessage(message) {
-    console.log(message)
+function sendMessage(message: string) {
     const data = {
-
+        id: useRandomString(16),
+        userName: userName.value,
+        roomId: roomId.value,
+        type: 'text',
+        data: message,
     }
-    // socket.send('hello ,nihaoya ,iyuwb');
+    socket.send(JSON.stringify(data));
+    // 添加到列表记录
+    chatList.value.push(data)
 }
 function getMessage(event: WebSocketEventMap['message']) {
     if (event.data instanceof Blob) {
         event.data.text().then(function (text) {
             console.log(text)
+            chatList.value.push(JSON.parse(text))
+
         });
     } else {
         console.log(event.data)

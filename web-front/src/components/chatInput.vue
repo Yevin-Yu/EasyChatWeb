@@ -11,6 +11,7 @@ let inputText = ref('')
 function sendMessage($parent: any) {
     if ($parent.sendMessage && inputText.value) {
         $parent.sendMessage(inputText.value)
+        inputText.value = ''
     }
 }
 

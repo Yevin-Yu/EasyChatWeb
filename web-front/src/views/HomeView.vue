@@ -1,10 +1,12 @@
 <template>
-  <div class="open-chat">
-    <button @click="go">新建聊天</button>
-    <div class="input">
-      <input v-model="number" placeholder="请输入房间编号" type="text">
+  <div class="web-chat">
+    <div class="open-chat">
+      <button @click="go">新建聊天</button>
+      <div class="input">
+        <input v-model="number" placeholder="请输入房间编号" type="text">
+      </div>
+      <button @click="add">加入聊天</button>
     </div>
-    <button @click="add">加入聊天</button>
   </div>
 </template>
 <script setup lang="ts">
@@ -22,6 +24,11 @@ function add() {
 }
 </script>
 <style scoped>
+.web-chat{
+    width: 100%;
+    max-height: 100vh;
+    overflow: hidden;
+}
 .open-chat {
   margin: 25vh auto;
   width: 380px;

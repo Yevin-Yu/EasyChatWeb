@@ -1,39 +1,11 @@
 <template>
     <div class="chat-list">
-        <div class="left">
+        <div :class="item.userName === userName ? 'right' : 'left'" v-for="item in chatList" :key="item.id">
             <div class="item-card">
-                <span class="user-name">用户：8952</span>
-                <span class="chat-time">时间：17:43</span>
+                <span class="user-name">{{ item.userName }}</span>
+                <span class="chat-time">17:43</span>
                 <div class="text">
-                    你好呀，哈喽你好呀，你好呀你好呀，哈喽你好呀，你好呀你好呀，哈喽你好呀，你好呀你好呀，哈喽你好呀，你好呀
-                </div>
-            </div>
-        </div>
-        <div class="right">
-            <div class="item-card">
-                <span class="user-name">用户：8952</span>
-                <span class="chat-time">时间：17:43</span>
-                <div class="text">
-                    你好呀，哈喽
-                </div>
-            </div>
-        </div>
-        <div class="right">
-            <div class="item-card">
-                <span class="user-name">用户：8952</span>
-                <span class="chat-time">时间：17:43</span>
-                <div class="text">
-                    你好呀，哈喽你好呀，你好呀你好呀，哈喽你好呀，你好呀你好呀，哈喽你好呀，你好呀你好呀，哈喽你好呀，你好呀
-                </div>
-            </div>
-        </div>
-        <div class="right" v-for="item in 5" :key="item">
-            <div class="item-card">
-                <span class="chat-time">时间：17:43</span>
-                <span class="user-name">用户：8952</span>
-
-                <div class="text">
-                    你好呀，哈喽你好呀，你好呀
+                    {{ item.data }}
                 </div>
             </div>
         </div>
@@ -41,12 +13,17 @@
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted,ref } from 'vue';
+import { onMounted, ref } from 'vue';
+defineProps(['chatList', 'userName', 'roomId'])
 
 const targetElement = ref();
 onMounted(() => {
-    targetElement.value.scrollIntoView({ behavior: 'instant', block: 'end' });
+    scrollIntoView()
 })
+function scrollIntoView(){
+    targetElement.value.scrollIntoView({ behavior: 'instant', block: 'end' });
+}
+defineExpose({scrollIntoView})
 </script>
 <style scoped>
 .chat-list {
