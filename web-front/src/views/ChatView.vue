@@ -1,7 +1,7 @@
 <template>
     <div class="chat">
         <Header :roomId="roomId" :userName="userName">
-            <span class="room-number">[hdw732jd][已链接]</span>
+            <span class="room-number">[{{ roomId }}][{{ wsStatus ? '已连接' : '未连接' }}][{{ roomSize }}人在线]</span>
         </Header>
         <ChatList :chatList="chatList" :roomId="roomId" :userName="userName"></ChatList>
         <ChatInput></ChatInput>
@@ -30,7 +30,8 @@ const userStore = useUserStore()
 let { userName } = storeToRefs(userStore)
 // 聊天记录
 let chatList = ref<any[]>([])
-
+// 房间人数
+let roomSize = ref(0)
 // WebSocket
 let wsStatus = ref(false)
 let socket: WebSocket;
@@ -45,6 +46,15 @@ function webSocketInit() {
     socket.addEventListener('open', function (event) {
         console.log('open');
         wsStatus.value = true
+        // 加入聊天室
+        const data = {
+            id: useRandomString(16),
+            userName: userName.value,
+            roomId: roomId.value,
+            type: 'join',
+            data: '',
+        }
+        socket.send(JSON.stringify(data));
     });
     // 监听消息事件
     socket.addEventListener('message', async function (event) {
@@ -52,7 +62,6 @@ function webSocketInit() {
     });
     // 监听断开事件
     socket.addEventListener('close', async function (event) {
-        console.log('close');
         wsStatus.value = false
         // 重新连接
         webSocketInit()
@@ -64,7 +73,7 @@ function sendMessage(message: string) {
         id: useRandomString(16),
         userName: userName.value,
         roomId: roomId.value,
-        type: 'text',
+        type: 'message',
         data: message,
     }
     socket.send(JSON.stringify(data));
@@ -75,14 +84,30 @@ function getMessage(event: WebSocketEventMap['message']) {
     if (event.data instanceof Blob) {
         event.data.text().then(function (text) {
             console.log(text)
-            chatList.value.push(JSON.parse(text))
-
+            const data = JSON.parse(text)
+            if (data.type === 'message') {
+                chatList.value.push(data)
+            }
         });
     } else {
-        console.log(event.data)
+        console.log(event)
+        const data = JSON.parse(event.data)
+        if (data.type === 'message') chatList.value.push(data)
+        else if (data.type === 'room') {
+            roomSize.value = data.data
+        }
     }
 }
-defineExpose({ sendMessage })
+// 修改用户名 同步聊天信息
+function editUserName(data: string) {
+    if (chatList.value && chatList.value.length > 0) {
+        chatList.value.forEach(item => {
+            if (item.userName === userName.value) item.userName = data
+        })
+    }
+    userName.value = data
+}
+defineExpose({ sendMessage, editUserName })
 </script>
 <style scoped>
 .chat {

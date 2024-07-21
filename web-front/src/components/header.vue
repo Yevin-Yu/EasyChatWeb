@@ -20,7 +20,7 @@
             </div>
             <div class="btn">
                 <button @click="isShow = false">取消</button>
-                <button @click="editUserName">确定</button>
+                <button @click="editUserName($parent)">确定</button>
             </div>
         </div>
     </teleport>
@@ -49,8 +49,9 @@ function share() {
         });
 }
 // 编辑用户名和房间号
-function editUserName() {
-    console.log('edit')
+function editUserName($parent: any) {
+    $parent.editUserName(userNameEdit.value)
+    isShow.value = false
 }
 </script>
 <style scoped>
