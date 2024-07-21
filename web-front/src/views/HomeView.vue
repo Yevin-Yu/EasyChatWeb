@@ -24,11 +24,12 @@ function add() {
 }
 </script>
 <style scoped>
-.web-chat{
-    width: 100%;
-    max-height: 100vh;
-    overflow: hidden;
+.web-chat {
+  width: 100%;
+  max-height: 100vh;
+  overflow: hidden;
 }
+
 .open-chat {
   margin: 25vh auto;
   width: 380px;

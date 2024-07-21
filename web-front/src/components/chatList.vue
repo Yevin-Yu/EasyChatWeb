@@ -20,10 +20,10 @@ const targetElement = ref();
 onMounted(() => {
     scrollIntoView()
 })
-function scrollIntoView(){
+function scrollIntoView() {
     targetElement.value.scrollIntoView({ behavior: 'instant', block: 'end' });
 }
-defineExpose({scrollIntoView})
+defineExpose({ scrollIntoView })
 </script>
 <style scoped>
 .chat-list {
