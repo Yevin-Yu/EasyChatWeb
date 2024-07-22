@@ -43,7 +43,7 @@ onMounted(() => {
 // 初始化WebSocket
 function webSocketInit() {
     // 创建 WebSocket 连接
-    socket = new WebSocket('//ws.yuwb.cn/');
+    socket = new WebSocket('wss://ws.yuwb.cn/');
     // 监听连接成功事件
     socket.addEventListener('open', function (event) {
         wsStatus.value = true
