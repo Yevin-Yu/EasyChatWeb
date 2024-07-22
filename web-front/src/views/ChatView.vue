@@ -94,8 +94,10 @@ function getMessage(event: WebSocketEventMap['message']) {
         });
     } else {
         const data = JSON.parse(event.data)
-        if (data.type === 'message') chatList.value.push(data)
-        else if (data.type === 'room') {
+        if (data.type === 'message') {
+            chatList.value.push(data)
+            chatListRef.value.scrollIntoView()
+        } else if (data.type === 'room') {
             roomSize.value = data.data
         }
     }
