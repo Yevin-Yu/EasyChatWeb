@@ -3,7 +3,7 @@
         <Header :roomId="roomId" :userName="userName">
             <span class="room-number">[{{ roomId }}][{{ wsStatus ? '已连接' : '未连接' }}][{{ roomSize }}人在线]</span>
         </Header>
-        <ChatList :chatList="chatList" :roomId="roomId" :userName="userName"></ChatList>
+        <ChatList ref="chatListRef" :chatList="chatList" :roomId="roomId" :userName="userName"></ChatList>
         <ChatInput></ChatInput>
     </div>
 </template>
@@ -17,6 +17,8 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia';
+// 组件信息
+let chatList = ref<any[]>([])
 const router = useRouter()
 const route = useRoute()
 // 获取房间号
@@ -29,7 +31,7 @@ if (!roomId.value) {
 const userStore = useUserStore()
 let { userName } = storeToRefs(userStore)
 // 聊天记录
-let chatList = ref<any[]>([])
+let chatListRef = ref<any>()
 // 房间人数
 let roomSize = ref(0)
 // WebSocket
@@ -41,10 +43,9 @@ onMounted(() => {
 // 初始化WebSocket
 function webSocketInit() {
     // 创建 WebSocket 连接
-    socket = new WebSocket('ws://localhost:8080');
+    socket = new WebSocket('//ws.yuwb.cn/');
     // 监听连接成功事件
     socket.addEventListener('open', function (event) {
-        console.log('open');
         wsStatus.value = true
         // 加入聊天室
         const data = {
@@ -79,18 +80,19 @@ function sendMessage(message: string) {
     socket.send(JSON.stringify(data));
     // 添加到列表记录
     chatList.value.push(data)
+    // 自动滚动消息
+    chatListRef.value.scrollIntoView()
 }
 function getMessage(event: WebSocketEventMap['message']) {
     if (event.data instanceof Blob) {
         event.data.text().then(function (text) {
-            console.log(text)
             const data = JSON.parse(text)
             if (data.type === 'message') {
                 chatList.value.push(data)
+                chatListRef.value.scrollIntoView()
             }
         });
     } else {
-        console.log(event)
         const data = JSON.parse(event.data)
         if (data.type === 'message') chatList.value.push(data)
         else if (data.type === 'room') {

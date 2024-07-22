@@ -1,6 +1,6 @@
 <template>
     <div class="chat-input">
-        <textarea type="text" v-model="inputText" />
+        <input @keyup.enter="sendMessage($parent)" type="text" v-model="inputText" ></input>
         <button @click="sendMessage($parent)">发 送</button>
     </div>
 </template>
@@ -18,17 +18,21 @@ function sendMessage($parent: any) {
 </script>
 <style scoped>
 .chat-input {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    position: absolute;
     box-sizing: border-box;
     border-radius: 20px 20px 0 0;
     padding: 12px;
-    height: 200px;
+    height: 80px;
     background: #fff;
 }
 
-.chat-input textarea {
+.chat-input input {
     width: 100%;
     height: 100%;
-    line-height: 48px;
+    line-height: 56px;
     font-size: 16px;
     resize: none;
     border: none;
@@ -42,11 +46,11 @@ function sendMessage($parent: any) {
 
 .chat-input button {
     position: absolute;
-    bottom: 20px;
+    bottom: 24px;
     right: 20px;
     background-color: #6CB9B4;
     height: 32px;
-    width: 80px;
+    width: 60px;
     color: #fff;
     outline: none;
     border: none;

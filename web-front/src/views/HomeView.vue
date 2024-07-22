@@ -3,24 +3,24 @@
     <div class="open-chat">
       <button @click="go">新建聊天</button>
       <div class="input">
-        <input v-model="number" placeholder="请输入房间编号" type="text">
+        <input v-model="roomId" placeholder="请输入房间编号" type="text">
       </div>
       <button @click="add">加入聊天</button>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import { useRandomString } from '@/hooks/useRandomString';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
-let number = ref('')
+let roomId = ref('')
 function go() {
-  console.log('go')
-  router.push({ name: 'chat' })
+  router.push(`chat?roomId=${useRandomString(8)}`)
 }
 function add() {
-  console.log('go', number.value)
+  router.push(`chat?roomId=${roomId.value}`)
 }
 </script>
 <style scoped>

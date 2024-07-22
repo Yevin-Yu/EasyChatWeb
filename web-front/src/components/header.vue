@@ -37,7 +37,6 @@ let isShow = ref(false)
 function share() {
     navigator.clipboard.writeText(location.origin + '/chat?roomId=' + roomId)
         .then(() => {
-            console.log('文本已复制到剪贴板');
             ElNotification({
                 title: '提示',
                 message: '文本已复制到剪贴板',

@@ -3,7 +3,7 @@
         <div :class="item.userName === userName ? 'right' : 'left'" v-for="item in chatList" :key="item.id">
             <div class="item-card">
                 <span class="user-name">{{ item.userName }}</span>
-                <span class="chat-time">17:43</span>
+                <!-- <span class="chat-time">17:43</span> -->
                 <div class="text">
                     {{ item.data }}
                 </div>
@@ -13,27 +13,27 @@
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, nextTick } from 'vue';
 defineProps(['chatList', 'userName', 'roomId'])
 
 const targetElement = ref();
 onMounted(() => {
     scrollIntoView()
 })
-function scrollIntoView() {
+async function scrollIntoView() {
+    await nextTick();
     targetElement.value.scrollIntoView({ behavior: 'instant', block: 'end' });
 }
 defineExpose({ scrollIntoView })
 </script>
 <style scoped>
 .chat-list {
-    height: calc(100% - 258px);
+    height: calc(100vh - 138px);
     overflow-y: scroll;
     background: #6CB9B4;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* margin: auto; */
 }
 
 .chat-list::-webkit-scrollbar {
