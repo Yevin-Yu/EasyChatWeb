@@ -10,8 +10,11 @@
                     <span class="user-name">{{ item.userName }}</span>
                     <span class="chat-time">{{ item.time }}</span>
                 </span>
-                <div class="text">
+                <div v-if="item.type === 'message'" class="text">
                     {{ item.data }}
+                </div>
+                <div v-else-if="item.type === 'image'" class="image">
+                    <img :src="item.data " alt="图片">
                 </div>
             </div>
         </div>
@@ -94,5 +97,21 @@ defineExpose({ scrollIntoView })
 }
 .right .user-time,.left .user-time{
     display: block;
+}
+
+.chat-list .image {
+    min-width: 40%;
+    overflow: hidden;
+    margin: 6px;
+    border-radius: 6px;
+    text-align: left;
+    display: inline-block;
+}
+.chat-list .image img {
+    display: block;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
 }
 </style>

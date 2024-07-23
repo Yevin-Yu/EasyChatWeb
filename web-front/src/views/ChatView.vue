@@ -39,12 +39,14 @@ let roomSize = ref(0)
 let wsStatus = ref(false)
 let socket: WebSocket;
 onMounted(() => {
+    // 初始化WebSocket
     webSocketInit()
 })
 // 初始化WebSocket
 function webSocketInit() {
     // 创建 WebSocket 连接
     socket = new WebSocket('wss://ws.yuwb.cn/');
+    // socket = new WebSocket('ws://localhost:8080');
     // 监听连接成功事件
     socket.addEventListener('open', function (event) {
         wsStatus.value = true
@@ -71,13 +73,13 @@ function webSocketInit() {
     });
 }
 // 发送消息
-function sendMessage(message: string) {
+function sendMessage(message: string, type: string) {
     const data = {
         id: useRandomString(16),
         userName: userName.value,
         roomId: roomId.value,
         time: dayjs().format('HH:mm'),
-        type: 'message',
+        type: type,
         data: message,
     }
     socket.send(JSON.stringify(data));
@@ -93,6 +95,11 @@ function getMessage(event: WebSocketEventMap['message']) {
             if (data.type === 'message') {
                 chatList.value.push(data)
                 chatListRef.value.scrollIntoView()
+            } else if (data.type === 'room') {
+                roomSize.value = data.data
+            } else if (data.type === 'image') {
+                chatList.value.push(data)
+                chatListRef.value.scrollIntoView()
             }
         });
     } else {
@@ -102,6 +109,9 @@ function getMessage(event: WebSocketEventMap['message']) {
             chatListRef.value.scrollIntoView()
         } else if (data.type === 'room') {
             roomSize.value = data.data
+        } else if (data.type === 'image') {
+            chatList.value.push(data)
+            chatListRef.value.scrollIntoView()
         }
     }
 }
