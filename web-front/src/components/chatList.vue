@@ -2,11 +2,11 @@
     <div class="chat-list">
         <div :class="item.userName === userName ? 'right' : 'left'" v-for="item in chatList" :key="item.id">
             <div class="item-card">
-                <span v-if="item.userName === userName">
+                <span class="user-time" v-if="item.userName === userName">
                     <span class="chat-time">{{ item.time }}</span>
                     <span class="user-name">{{ item.userName }}</span>
                 </span>
-                <span v-else>
+                <span v-else class="user-time">
                     <span class="user-name">{{ item.userName }}</span>
                     <span class="chat-time">{{ item.time }}</span>
                 </span>
@@ -34,7 +34,7 @@ defineExpose({ scrollIntoView })
 </script>
 <style scoped>
 .chat-list {
-    height: calc(100vh - 138px);
+    height: calc(100vh - 190px);
     overflow-y: scroll;
     background: #6CB9B4;
     display: flex;
@@ -74,12 +74,14 @@ defineExpose({ scrollIntoView })
 
 .chat-list .text {
     margin: 6px;
-    padding: 6px;
+    padding: 6px 12px;
     border-radius: 6px;
     line-height: 32px;
     color: #666;
     background-color: #fff;
     text-align: left;
+    width: fit-content;
+    display: inline-block;
 }
 
 .chat-list .right {
@@ -89,5 +91,8 @@ defineExpose({ scrollIntoView })
 
 .right .item-card {
     text-align: right;
+}
+.right .user-time,.left .user-time{
+    display: block;
 }
 </style>
