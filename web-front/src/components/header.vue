@@ -35,7 +35,7 @@ let userNameEdit = ref(userName)
 let isShow = ref(false)
 // 复制链接
 function share() {
-    navigator.clipboard.writeText(location.origin + '/chat?roomId=' + roomId)
+    navigator.clipboard.writeText(location.href)
         .then(() => {
             ElNotification({
                 title: '提示',
