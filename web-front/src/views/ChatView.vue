@@ -17,6 +17,7 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia';
+import dayjs from 'dayjs'
 // 组件信息
 let chatList = ref<any[]>([])
 const router = useRouter()
@@ -52,6 +53,7 @@ function webSocketInit() {
             id: useRandomString(16),
             userName: userName.value,
             roomId: roomId.value,
+            time: dayjs().format('HH:mm'),
             type: 'join',
             data: '',
         }
@@ -74,6 +76,7 @@ function sendMessage(message: string) {
         id: useRandomString(16),
         userName: userName.value,
         roomId: roomId.value,
+        time: dayjs().format('HH:mm'),
         type: 'message',
         data: message,
     }
@@ -112,6 +115,7 @@ function editUserName(data: string) {
     userName.value = data
 }
 defineExpose({ sendMessage, editUserName })
+
 </script>
 <style scoped>
 .chat {
