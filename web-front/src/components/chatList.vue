@@ -34,7 +34,7 @@ defineExpose({ scrollIntoView })
 </script>
 <style scoped>
 .chat-list {
-    height: calc(100vh - 190px);
+    height: calc(100% - 200px);
     overflow-y: scroll;
     background: #6CB9B4;
     display: flex;
