@@ -55,7 +55,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import {  ref } from 'vue';
+import { ref } from 'vue';
 // Emoji表情
 import { useEmojiStore } from '@/stores/useEmojiStore';
 const { EmojiList } = useEmojiStore()
@@ -83,11 +83,12 @@ function sendMessage($parent: any, emoji: string) {
 // 上传图片
 let fileInput = ref()
 import { useImageUploader } from '@/hooks/useImageUploader';
-const { uploadImage, fileList, cancelImage, delImage } = useImageUploader(fileInput);
-
+const { uploadImage, fileList, cancelImage, delImage, dragFile } = useImageUploader(fileInput);
+defineExpose({ dragFile })
 // 全屏图片
 import { useFullScreenImage } from '@/hooks/useFullScreenImage';
 const { toggleFullScreen } = useFullScreenImage();
+
 </script>
 <style scoped>
 .chat-input {

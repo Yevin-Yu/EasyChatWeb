@@ -17,6 +17,11 @@ export function useImageUploader(element: Ref<any>) {
       const files = event.target.files;
       if (files.length > 0) {
         const file = files[0];
+        const maxSize = 2 * 1024 * 1024;
+        if (file.size > maxSize) {
+          ElNotification({ title: '提示', message: '图片文件过大', type: 'warning', })
+          return
+        }
         if (isImageFile(file)) {
           convertToBase64(file);
         } else {
@@ -66,7 +71,23 @@ export function useImageUploader(element: Ref<any>) {
     fileList.value.splice(i, 1);
   }
 
+  const dragFile = (file: File) => {
+    if (file) {
+      const maxSize = 2 * 1024 * 1024;
+      if (file.size > maxSize) {
+        ElNotification({ title: '提示', message: '图片文件过大', type: 'warning', })
+        return
+      }
+      if (isImageFile(file)) {
+        convertToBase64(file);
+      } else {
+        ElNotification({ title: '提示', message: '请选择图片文件！', type: 'warning', })
+      }
+    }
+  }
+
   return {
+    dragFile,
     uploadImage,
     fileList,
     cancelImage,
