@@ -45,8 +45,8 @@
             </div>
         </div>
         <div class="input-content">
-            <input v-if="!fileList.length" @keyup.enter="sendMessage($parent, '')" type="text"
-                v-model="inputText"></input>
+            <input v-show="!fileList.length" @keyup.enter="sendMessage($parent, '')" type="text" v-model="inputText"
+                ref="chatInput"></input>
             <button @click="cancelImage" v-if="fileList.length" class="cancel">取 消</button>
             <button @click="sendMessage($parent, '')">发 送</button>
         </div>
@@ -88,6 +88,10 @@ defineExpose({ dragFile })
 import { useFullScreenImage } from '@/hooks/useFullScreenImage';
 const { toggleFullScreen } = useFullScreenImage();
 
+// 粘贴图片
+const chatInput = ref()
+import { useClipboardImage } from '@/hooks/useClipboardImage';
+useClipboardImage(chatInput, fileList);
 </script>
 <style scoped>
 .chat-input {

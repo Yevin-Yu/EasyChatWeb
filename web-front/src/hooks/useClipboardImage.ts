@@ -1,27 +1,23 @@
 // useClipboardImage.ts
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, type Ref } from "vue";
 
-interface UseClipboardImageResult {
-    pasteImage: (event: ClipboardEvent) => void;
-    pastedImageUrl: string | null;
-}
 
-export function useClipboardImage(targetElement: string): UseClipboardImageResult {
-    const pastedImageUrl = ref(null);
+export function useClipboardImage(element: Ref, fileList: Ref) {
+
 
     const handlePaste = (event: ClipboardEvent) => {
-        event.preventDefault();
-        const items = (event.clipboardData || window.clipboardData).items;
-
+        const items = event.clipboardData!.items;
         for (let item of items) {
             if (item.kind === "file" && item.type.startsWith("image/")) {
+                // 图片的话阻止默认
+                event.preventDefault();
                 const blob = item.getAsFile();
-
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    pastedImageUrl.value = e.target?.result as string;
+                    console.log(e.target?.result)
+                    fileList.value.push(e.target?.result);
                 };
-                reader.readAsDataURL(blob);
+                reader.readAsDataURL(blob!);
             }
         }
     };
@@ -31,21 +27,10 @@ export function useClipboardImage(targetElement: string): UseClipboardImageResul
     };
 
     onMounted(() => {
-        const element = document.querySelector(targetElement);
-        if (element) {
-            element.addEventListener("paste", pasteImage);
-        }
+        element.value.addEventListener("paste", pasteImage);
     });
 
     onUnmounted(() => {
-        const element = document.querySelector(targetElement);
-        if (element) {
-            element.removeEventListener("paste", pasteImage);
-        }
+        element.value.removeEventListener("paste", pasteImage);
     });
-
-    return {
-        pasteImage,
-        pastedImageUrl,
-    };
 }
