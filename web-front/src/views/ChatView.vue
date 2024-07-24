@@ -95,11 +95,13 @@ function getMessage(event: WebSocketEventMap['message']) {
             if (data.type === 'message') {
                 chatList.value.push(data)
                 chatListRef.value.scrollIntoView()
+                showNotification()
             } else if (data.type === 'room') {
                 roomSize.value = data.data
             } else if (data.type === 'image') {
                 chatList.value.push(data)
                 chatListRef.value.scrollIntoView()
+                showNotification()
             }
         });
     } else {
@@ -107,11 +109,13 @@ function getMessage(event: WebSocketEventMap['message']) {
         if (data.type === 'message') {
             chatList.value.push(data)
             chatListRef.value.scrollIntoView()
+            showNotification()
         } else if (data.type === 'room') {
             roomSize.value = data.data
         } else if (data.type === 'image') {
             chatList.value.push(data)
             chatListRef.value.scrollIntoView()
+            showNotification()
         }
     }
 }
@@ -126,6 +130,11 @@ function editUserName(data: string) {
 }
 defineExpose({ sendMessage, editUserName })
 
+
+// 消息提示
+import { useNotifications } from '@/hooks/useNotifications';
+const options: NotificationOptions = { body: '收到新消息', icon: 'logo.png', };
+const { showNotification } = useNotifications('Web Chat', options);
 </script>
 <style scoped>
 .chat {

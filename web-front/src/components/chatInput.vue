@@ -37,7 +37,7 @@
         <!-- 图片预览   -->
         <div v-if="fileList.length" class="image-list">
             <div class="img-item" v-for="item, index in fileList" :key="'image' + index">
-                <img height="200px" :src="item" alt="图片">
+                <img @click="toggleFullScreen(item)" height="200px" :src="item" alt="图片">
                 <svg @click="delImage(index)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
                     <path fill="currentColor"
                         d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z">
@@ -55,12 +55,13 @@
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
-import { ElNotification } from 'element-plus'
+import {  ref } from 'vue';
+// Emoji表情
+import { useEmojiStore } from '@/stores/useEmojiStore';
+const { EmojiList } = useEmojiStore()
+// 控制展示
 let isShowEmoji = ref(false)
 let inputText = ref('')
-// Emoji
-const EmojiList = ['😀', '🤣', '😅', '😉', '😍', '😘', '🙂', '🤔', '😑', '😌', '😔', '🤤', '😋', '🥵', '🤮', '😎', '😳', '😭', '😓', '😡', '😠', '🤡', '👻', '💩', '🙈', '🙉', '🙊', '💯', '💋', '💖', '👌', '🫵', '🙏', '🫦', '🌸', '🌹', '🍉']
 // 发送消息
 function sendMessage($parent: any, emoji: string) {
     if (fileList.value.length) {
@@ -81,51 +82,12 @@ function sendMessage($parent: any, emoji: string) {
 }
 // 上传图片
 let fileInput = ref()
+import { useImageUploader } from '@/hooks/useImageUploader';
+const { uploadImage, fileList, cancelImage, delImage } = useImageUploader(fileInput);
 
-let fileList = ref<string[]>([]);
-function uploadImage() {
-    isShowEmoji.value = false
-    // 打开上传弹窗
-    fileInput.value.click()
-}
-onMounted(() => {
-    fileInput.value.addEventListener('change', function (event: any) {
-        const files = event.target.files;
-        if (files.length > 0) {
-            const file = files[0];
-            if (isImageFile(file)) {
-                convertToBase64(file);
-            } else {
-                ElNotification({ title: '提示', message: '请选择图片文件！', type: 'warning', })
-            }
-        }
-    });
-})
-
-// 将文件转换为Base64编码
-const convertToBase64 = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = function (event) {
-        const base64String = event.target!.result;
-        fileList.value.push(base64String as string)
-    };
-    reader.readAsDataURL(file);
-}
-
-// 判断是否是文件
-const isImageFile = (file: File) => {
-    return file.type.startsWith('image/');
-}
-
-// 取消图片
-const cancelImage = () => {
-    fileList.value = []
-}
-// 删除图片
-const delImage = (i: number) => {
-    fileList.value.splice(i, 1);
-}
-
+// 全屏图片
+import { useFullScreenImage } from '@/hooks/useFullScreenImage';
+const { toggleFullScreen } = useFullScreenImage();
 </script>
 <style scoped>
 .chat-input {

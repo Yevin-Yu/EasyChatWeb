@@ -14,7 +14,7 @@
                     {{ item.data }}
                 </div>
                 <div v-else-if="item.type === 'image'" class="image">
-                    <img :src="item.data " alt="图片">
+                    <img @click="toggleFullScreen(item.data)" :src="item.data" alt="图片">
                 </div>
             </div>
         </div>
@@ -25,6 +25,7 @@
 import { onMounted, ref, nextTick } from 'vue';
 defineProps(['chatList', 'userName', 'roomId'])
 
+
 const targetElement = ref();
 onMounted(() => {
     scrollIntoView()
@@ -34,6 +35,10 @@ async function scrollIntoView() {
     targetElement.value.scrollIntoView({ behavior: 'instant', block: 'end' });
 }
 defineExpose({ scrollIntoView })
+
+// 全屏图片
+import { useFullScreenImage } from '@/hooks/useFullScreenImage';
+const { toggleFullScreen } = useFullScreenImage();
 </script>
 <style scoped>
 .chat-list {
@@ -95,7 +100,9 @@ defineExpose({ scrollIntoView })
 .right .item-card {
     text-align: right;
 }
-.right .user-time,.left .user-time{
+
+.right .user-time,
+.left .user-time {
     display: block;
 }
 
@@ -107,6 +114,7 @@ defineExpose({ scrollIntoView })
     text-align: left;
     display: inline-block;
 }
+
 .chat-list .image img {
     display: block;
     object-fit: contain;

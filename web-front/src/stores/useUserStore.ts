@@ -2,7 +2,7 @@ import { ref, watchEffect, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useRandomString } from '@/hooks/useRandomString';
 
-export const useUserStore = defineStore('counter', () => {
+export const useUserStore = defineStore('user', () => {
   const userName: Ref<string> = ref(localStorage.getItem('userName')|| '用户' + useRandomString(8))
   watchEffect(()=>{
     if(userName.value){

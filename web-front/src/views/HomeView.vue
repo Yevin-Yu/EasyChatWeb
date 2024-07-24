@@ -15,6 +15,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
+// 加入或者新建房间
 let roomId = ref('')
 function go() {
   router.push(`chat?roomId=${useRandomString(8)}`)
