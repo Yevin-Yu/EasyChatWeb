@@ -1,13 +1,13 @@
 <template>
-  <div class="web-chat">
-    <div class="open-chat">
-      <button @click="go">新建聊天</button>
-      <div class="input">
-        <input v-model="roomId" placeholder="请输入房间编号" type="text">
-      </div>
-      <button @click="add">加入聊天</button>
+    <div class="web-chat">
+        <div class="open-chat">
+            <button @click="go">新建聊天</button>
+            <div class="input">
+                <input v-model="roomId" placeholder="请输入房间编号" type="text" />
+            </div>
+            <button @click="add">加入聊天</button>
+        </div>
     </div>
-  </div>
 </template>
 <script setup lang="ts">
 import { useRandomString } from '@/hooks/useRandomString';

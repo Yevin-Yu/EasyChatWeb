@@ -3,20 +3,20 @@
         Web轻聊
         <slot></slot>
         <svg @click="share" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-            <path fill="currentColor"
-                d="m679.872 348.8-301.76 188.608a127.808 127.808 0 0 1 5.12 52.16l279.936 104.96a128 128 0 1 1-22.464 59.904l-279.872-104.96a128 128 0 1 1-16.64-166.272l301.696-188.608a128 128 0 1 1 33.92 54.272z">
-            </path>
+            <path
+                fill="currentColor"
+                d="m679.872 348.8-301.76 188.608a127.808 127.808 0 0 1 5.12 52.16l279.936 104.96a128 128 0 1 1-22.464 59.904l-279.872-104.96a128 128 0 1 1-16.64-166.272l301.696-188.608a128 128 0 1 1 33.92 54.272z"></path>
         </svg>
         <svg @click="isShow = true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-            <path fill="currentColor"
-                d="M628.736 528.896A416 416 0 0 1 928 928H96a415.872 415.872 0 0 1 299.264-399.104L512 704zM720 304a208 208 0 1 1-416 0 208 208 0 0 1 416 0">
-            </path>
+            <path
+                fill="currentColor"
+                d="M628.736 528.896A416 416 0 0 1 928 928H96a415.872 415.872 0 0 1 299.264-399.104L512 704zM720 304a208 208 0 1 1-416 0 208 208 0 0 1 416 0"></path>
         </svg>
     </div>
     <teleport to="body">
         <div v-if="isShow" class="open-chat">
             <div class="input">
-                <input v-model="userNameEdit" placeholder="用户名" type="text">
+                <input v-model="userNameEdit" placeholder="用户名" type="text" />
             </div>
             <div class="btn">
                 <button @click="isShow = false">取消</button>

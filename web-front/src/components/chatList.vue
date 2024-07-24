@@ -14,7 +14,7 @@
                     {{ item.data }}
                 </div>
                 <div v-else-if="item.type === 'image'" class="image">
-                    <img @click="toggleFullScreen(item.data)" :src="item.data" alt="图片">
+                    <img @click="toggleFullScreen(item.data)" :src="item.data" alt="图片" />
                 </div>
             </div>
         </div>

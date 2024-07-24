@@ -32,7 +32,6 @@
                 <span class="emoji-item" v-for="item in EmojiList" @click="sendMessage($parent, item)" :key="item">{{
                     item }}</span>
             </div>
-
         </Transition>
         <!-- 图片预览   -->
         <div v-if="fileList.length" class="image-list">
