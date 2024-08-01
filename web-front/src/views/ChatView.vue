@@ -13,7 +13,7 @@ import { useUserStore } from '@/stores/useUserStore';
 import Header from '@/components/header.vue'
 import ChatList from '@/components/chatList.vue'
 import ChatInput from '@/components/chatInput.vue'
-import { onMounted, ref } from 'vue';
+import { onMounted, onBeforeUnmount, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia';
@@ -42,6 +42,13 @@ onMounted(() => {
     // 初始化WebSocket
     webSocketInit()
 })
+let isClose = ref(false)
+onBeforeUnmount(() => {
+    if (socket.readyState === WebSocket.OPEN) {
+      isClose.value = true
+      socket.close();
+    }
+})
 // 初始化WebSocket
 function webSocketInit() {
     // 创建 WebSocket 连接
@@ -49,6 +56,7 @@ function webSocketInit() {
     // socket = new WebSocket('ws://localhost:8080');
     // 监听连接成功事件
     socket.addEventListener('open', function (event) {
+        isClose.value = false
         wsStatus.value = true
         // 加入聊天室
         const data = {
@@ -69,7 +77,7 @@ function webSocketInit() {
     socket.addEventListener('close', async function (event) {
         wsStatus.value = false
         // 重新连接
-        webSocketInit()
+        if(!isClose.value)webSocketInit()
     });
 }
 // 发送消息
@@ -149,7 +157,7 @@ const onDrop = (e: DragEvent) => {
 .chat {
     height: 100%;
     width: 100%;
-    background-color:rgba(0,0,0,0.2)
+    background-color: rgba(0, 0, 0, 0.2)
 }
 
 .room-number {
