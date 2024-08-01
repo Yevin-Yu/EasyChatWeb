@@ -149,7 +149,7 @@ const onDrop = (e: DragEvent) => {
 .chat {
     height: 100%;
     width: 100%;
-    background: #6CB9B4;
+    background-color:rgba(0,0,0,0.2)
 }
 
 .room-number {

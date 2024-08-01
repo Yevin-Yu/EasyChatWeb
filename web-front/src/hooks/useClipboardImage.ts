@@ -31,6 +31,8 @@ export function useClipboardImage(element: Ref, fileList: Ref) {
     });
 
     onUnmounted(() => {
-        element.value.removeEventListener("paste", pasteImage);
+        if (element.value) {
+            element.value.removeEventListener("paste", pasteImage);
+        }
     });
 }

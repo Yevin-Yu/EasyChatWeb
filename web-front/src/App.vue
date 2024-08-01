@@ -14,5 +14,9 @@ body,
   margin: 0;
   width: 100%;
   height: 100%;
+  background-image: url('@/assets/banner.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 </style>

@@ -61,7 +61,7 @@ function editUserName($parent: any) {
     line-height: 58px;
     text-align: left;
     color: #fff;
-    background-color: #579690;
+    background-color: #57969099;
     position: relative;
 }
 

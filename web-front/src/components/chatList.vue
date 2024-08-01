@@ -44,7 +44,6 @@ const { toggleFullScreen } = useFullScreenImage();
 .chat-list {
     height: calc(100% - 200px);
     overflow-y: scroll;
-    background: #6CB9B4;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,14 +55,14 @@ const { toggleFullScreen } = useFullScreenImage();
 }
 
 .chat-list::-webkit-scrollbar-thumb {
-    background-color: #579690;
+    background-color: #57969080;
 }
 
 .user-name,
 .chat-time {
     font-size: 12px;
     padding: 6px;
-    color: #eee;
+    color: #fff;
 }
 
 .left,
