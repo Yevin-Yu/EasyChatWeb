@@ -94,7 +94,9 @@ function sendMessage(message: string, type: string) {
     // 添加到列表记录
     chatList.value.push(data)
     // 自动滚动消息
-    chatListRef.value.scrollIntoView()
+    setTimeout(() => {
+        chatListRef.value.scrollIntoView()
+    }, 100);
 }
 function getMessage(event: WebSocketEventMap['message']) {
     if (event.data instanceof Blob) {
@@ -102,27 +104,48 @@ function getMessage(event: WebSocketEventMap['message']) {
             const data = JSON.parse(text)
             if (data.type === 'message') {
                 chatList.value.push(data)
-                chatListRef.value.scrollIntoView()
+                setTimeout(() => {
+                    chatListRef.value.scrollIntoView()
+                }, 500);
                 showNotification()
             } else if (data.type === 'room') {
                 roomSize.value = data.data
             } else if (data.type === 'image') {
                 chatList.value.push(data)
-                chatListRef.value.scrollIntoView()
+                setTimeout(() => {
+                    chatListRef.value.scrollIntoView()
+                }, 500);
                 showNotification()
+            } else if (data.type === 'video') {
+                chatList.value.push(data)
+                setTimeout(() => {
+                    chatListRef.value.scrollIntoView()
+                }, 500);
+                showNotification()
+                console.log(data.type)
             }
         });
     } else {
         const data = JSON.parse(event.data)
         if (data.type === 'message') {
             chatList.value.push(data)
-            chatListRef.value.scrollIntoView()
+            setTimeout(() => {
+                chatListRef.value.scrollIntoView()
+            }, 500);
             showNotification()
         } else if (data.type === 'room') {
             roomSize.value = data.data
         } else if (data.type === 'image') {
             chatList.value.push(data)
-            chatListRef.value.scrollIntoView()
+            setTimeout(() => {
+                chatListRef.value.scrollIntoView()
+            }, 500);
+            showNotification()
+        } else if (data.type === 'video') {
+            chatList.value.push(data)
+            setTimeout(() => {
+                chatListRef.value.scrollIntoView()
+            }, 500);
             showNotification()
         }
     }

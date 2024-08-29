@@ -16,7 +16,10 @@ wss.on('connection', function connection(ws) {
             // 发送消息
             broadcastMessage(data.roomId, data, ws);
         } else if (data.type === 'image') {
-            // 发送消息
+            // 发送图片
+            broadcastMessage(data.roomId, data, ws);
+        } else if (data.type === 'video') {
+            // 发送视频
             broadcastMessage(data.roomId, data, ws);
         }
     });
