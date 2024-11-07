@@ -116,7 +116,7 @@ useClipboardFile(chatInput, fileList);
 // 视频全屏
 let isVideoFullScreen = ref(false);
 let videoFullScreenUrl = ref('');
-function showVideoFullScreen(item) {
+function showVideoFullScreen(item: string) {
     videoFullScreenUrl.value = item;
     isVideoFullScreen.value = true;
 }

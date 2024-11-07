@@ -13,9 +13,9 @@ export default defineConfig({
     VitePWA({
       // 应用清单
       manifest: {
-        name: 'Web Chat',
-        short_name: 'Web Chat',
-        description: 'Web Chat',
+        name: 'EasyChatWeb',
+        short_name: 'EasyChatWeb',
+        description: 'EasyChatWeb',
         theme_color: '#579690',
         icons: [
           {
@@ -39,7 +39,7 @@ export default defineConfig({
       injectRegister: 'auto',
       // 设置缓存资源
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,json,jpg,jpeg}']
+        globPatterns: ['*.{js,css,html,ico,png,svg,json,jpg,jpeg}']
       },
       //dev环境也开启pwa
       devOptions: {

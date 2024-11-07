@@ -45,14 +45,14 @@ onMounted(() => {
 let isClose = ref(false)
 onBeforeUnmount(() => {
     if (socket.readyState === WebSocket.OPEN) {
-      isClose.value = true
-      socket.close();
+        isClose.value = true
+        socket.close();
     }
 })
 // 初始化WebSocket
 function webSocketInit() {
     // 创建 WebSocket 连接
-    socket = new WebSocket('wss://ws.yuwb.cn/');
+    socket = new WebSocket('ws://ws.yuwb.cn/');
     // socket = new WebSocket('ws://localhost:8080');
     // 监听连接成功事件
     socket.addEventListener('open', function (event) {
@@ -77,7 +77,7 @@ function webSocketInit() {
     socket.addEventListener('close', async function (event) {
         wsStatus.value = false
         // 重新连接
-        if(!isClose.value)webSocketInit()
+        if (!isClose.value) webSocketInit()
     });
 }
 // 发送消息

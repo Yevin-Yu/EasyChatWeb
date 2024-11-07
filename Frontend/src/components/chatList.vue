@@ -56,7 +56,7 @@ const { toggleFullScreen } = useFullScreenImage();
 // 视频全频
 let isVideoFullScreen = ref(false);
 let videoFullScreenUrl = ref('');
-function showVideoFullScreen(item) {
+function showVideoFullScreen(item: string) {
     videoFullScreenUrl.value = item;
     isVideoFullScreen.value = true;
 }
