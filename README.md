@@ -1,5 +1,7 @@
 # EasyChatWeb
 
+![image](https://yuwb.cn/images/web-chat.png)
+
 一个Web端的轻聊页面，基于Vue3 + Node.js + WebSocket[个人练习测试使用]
 
 
